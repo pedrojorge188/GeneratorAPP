@@ -3,9 +3,6 @@ from constants import *
 import random
 import string
 
-CheckBox = [app.Checkbox(text = '',default = 'Pequeno')]
-GenerateButton = [app.Button("Generate")]
-
 def generatePassword():
     create = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) 
         for _ in range(MAX_SIZE))
@@ -13,8 +10,8 @@ def generatePassword():
 
 
 def initLayout(generatedPassword):
-    layout = [[app.Text(generatedPassword)],CheckBox, GenerateButton]
-    window = app.Window("Password Generation", layout ,size=(500, 250))
+    layout = [[app.Text(generatedPassword)],[app.Button("Generate")]]
+    window = app.Window("Password Generation", layout ,size=(1000, 250))
     return window
 
 while True:
