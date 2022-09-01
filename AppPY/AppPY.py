@@ -1,3 +1,5 @@
+from ast import Pass
+import os
 from distutils.command.clean import clean
 import PySimpleGUI as app
 from constants import *
@@ -28,6 +30,7 @@ def savePassword(password):
                 file.write(password+'\n')
       app.popup("Password Salva:")
 
+
 def generatePassword(size):
     create = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits + string.punctuation)
         for _ in range(size))
@@ -47,17 +50,19 @@ def initLayout(generatedPassword):
     return window
 
 def DBLayout():
-    layout = [[app.Text('DataBase -> Saved Passwords')],[app.Text(data)                                     
-                for data in range(Passwords_List)]
+    layout = [[app.Text('DataBase -> Saved Passwords')],[app.Text(text ='\n'+Passwords_List[data]+'\n',expand_y = True)                                     
+                for data in range(len(Passwords_List))],
+              [app.Button("Clear Database")]
              ]
 
     window = app.Window("DataBase", layout)
     return window
 
+with open("passwords.txt",'a') as file:
+            file.write('')
 
+restoreDb()
 while True:
-
-    restoreDb()
 
     if Run == True:
         window.close()
@@ -68,28 +73,48 @@ while True:
 
     if event == "Generate":
         if values['selection'] == 'Pequena':
+
             password = generatePassword(10)
+            Passwords_List.append(password)
+
         elif values['selection'] == 'Media':
+
             password = generatePassword(20)
+            Passwords_List.append(password)
+
         elif values['selection'] == 'Grande':
+
             password = generatePassword(50)
+            Passwords_List.append(password)
+
         else:
             app.popup(PASSERROR)
+
     elif event == "Save Password":
+
         if password == DEFAULT:
+
             app.popup(PASSERROR)
         else:
             savePassword(password)
+
     elif event == 'Password Database':
-        if Passwords_List[0] != '':
-            restoreDb()
+
+        if Passwords_List != []:
 
             dataBaseWindow = DBLayout()
             e,v = dataBaseWindow.read()
 
+            if e == "Clear Database":
+
+                os.remove('passwords.txt')
+                Passwords_List = []
+                dataBaseWindow.close()
         else:
             app.popup(PASSERROR)
+
     elif event == app.WIN_CLOSED:
+
         break
        
 
