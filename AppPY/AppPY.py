@@ -50,7 +50,7 @@ def initLayout(generatedPassword):
     return window
 
 def DBLayout():
-    layout = [[app.Text('DataBase -> Saved Passwords')],[app.Text(text ='\n'+Passwords_List[data]+'\n',expand_y = True)                                     
+    layout = [[app.Text('DataBase -> Saved Passwords')],[app.Text(text = '\n'+Passwords_List[data]+'\n', size = (30,40))                                     
                 for data in range(len(Passwords_List))],
               [app.Button("Clear Database")]
              ]
